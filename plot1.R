@@ -1,6 +1,6 @@
-#Read a subset
+#The data file is large, so read only a subset into R.
 data <- read.table("./data/household_power_consumption.txt",
-                   header=TRUE,
+                   header=FALSE,
                    sep=";",
                    na.strings="?",
                    nrows=10000,
@@ -27,15 +27,15 @@ plotdata <- data.table(rbind(feb01, feb02))
 library(lubridate)
 plotdata <- mutate(plotdata, new_date=dmy(date))
 
+# #Initiate plot. After testing. Copy and comment out.
 library(graphics)
-#Initiate plot.
-# hist(plotdata$global_active_power, xlab="Global Active Power (kilowatts)", col="red")
-with(plotdata, hist(global_active_power, xlab="Global Active Power (kilowatts)", col="red", main=""))
+# # hist(plotdata$global_active_power, xlab="Global Active Power (kilowatts)", col="red")
+# with(plotdata, hist(global_active_power, xlab="Global Active Power (kilowatts)", col="red", main=""))
+# 
+# #Annotate plot.
+# title(main="Global Active Power")
 
-#Annotate plot.
-title(main="Global Active Power")
-
-#Output plot to graphics device
+#Output plot to graphics device.
 library(grDevices)
 png(filename = "plot1.png", width=480, height=480, units="px") 
 with(plotdata, hist(global_active_power, xlab="Global Active Power (kilowatts)", col="red", main=""))

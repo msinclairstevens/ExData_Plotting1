@@ -1,6 +1,6 @@
-#Read a subset
+#The data file is large, so read only a subset into R.
 data <- read.table("./data/household_power_consumption.txt",
-                   header=TRUE,
+                   header=FALSE,
                    sep=";",
                    na.strings="?",
                    nrows=10000,
@@ -27,23 +27,17 @@ plotdata <- data.table(rbind(feb01, feb02))
 library(lubridate)
 x <- paste(plotdata$date, plotdata$time)
 plotdata <- mutate(plotdata, new_datetime=dmy_hms(x))
-numdate <- as.numeric(plotdata$new_datetime)
+#numdate <- as.numeric(plotdata$new_datetime)
 
-#Initiate plot.
+# #Initiate plot. After testing. Copy and comment out.
 library(graphics)
-with(plotdata, plot(numdate, global_active_power, type="l", col="black", 
-                   xaxt="n" , xlab="", ylab="Global Active Power (kilowatts)"))
-#Annotate plot.
-#axis(1, at=c(1170288000,1170374370,1170460740),labels=c('Thu','Fri','Sat'))
-xpoints <- c(min(numdate),median(numdate),max(numdate))
-axis(1, at=c(xpoints),labels=c('Thu','Fri','Sat'))
-
+# with(plotdata, plot(new_datetime, global_active_power, type="l", col="black", 
+#                     xlab="", ylab="Global Active Power (kilowatts)"))
 
 #Output plot to graphics device
 library(grDevices)
 png(filename = "plot2.png", width=480, height=480, units="px") 
-with(plotdata, plot(numdate, global_active_power, type="l", col="black", 
-                    xaxt="n" , xlab="", ylab="Global Active Power (kilowatts)"))
-axis(1, at=c(xpoints),labels=c('Thu','Fri','Sat'))
+with(plotdata, plot(new_datetime, global_active_power, type="l", col="black", 
+                    xlab="", ylab="Global Active Power (kilowatts)"))
 dev.off() 
 
